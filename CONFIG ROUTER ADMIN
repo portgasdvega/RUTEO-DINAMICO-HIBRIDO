@@ -1,0 +1,28 @@
+# ROUTER ADMINISTRACION
+
+Router>enable
+Router#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface fa0/0
+Router(config-if)#ip address 192.168.1.1 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#
+Router(config-if)#exit
+Router(config)#interface fa0/1
+Router(config-if)#ip address 192.168.2.1 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+Router(config)#interface fa1/0
+Router(config-if)#ip address 10.10.2.1 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+
+## RIP V2
+
+Router(config)#router rip
+Router(config-router)#version 2
+Router(config-router)#no auto-summary
+Router(config-router)#network 192.168.1.0
+Router(config-router)#network 192.168.2.0
+Router(config-router)#network 10.10.2.0
+Router(config-router)#exit
