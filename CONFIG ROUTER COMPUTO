@@ -1,0 +1,38 @@
+ROUTER COMPUTO
+
+Router>enable
+Router#configure terminal
+Router(config)#interface fa0/0
+Router(config-if)#ip address 10.10.1.1 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+Router(config)#interface fa0/1
+Router(config-if)#ip address 10.10.2.2 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+Router(config)#interface fa1/0
+Router(config-if)#ip address 172.16.2.2 255.255.255.0
+Router(config-if)#no shutdown
+Router(config-if)#exit
+
+
+#OSPF Y REDISTRIBUCION
+
+Router(config)#router ospf 1
+Router(config-router)#network 10.10.1.0 0.0.0.255 area 0
+Router(config-router)#network 10.10.2.0 0.0.0.255 area 0
+Router(config-router)#network 172.16.2.0 0.0.0.255 area 0
+Router(config-router)#exit
+Router(config)#router rip
+Router(config-router)#version 2
+Router(config-router)#no auto-summary
+Router(config-router)#network 10.10.2.0
+Router(config-router)#network 172.16.2.0
+Router(config-router)#exit
+Router(config)#router ospf 1	
+Router(config-router)#redistribute rip subnets
+Router(config-router)#ex
+Router(config)#router rip
+Router(config-router)#redistribute ospf 1 metric 2
+Router(config-router)#exit
+Router(config)#exit
